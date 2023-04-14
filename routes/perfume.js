@@ -1,9 +1,6 @@
 var express = require('express');
+const perfume_controlers= require('../controllers/perfume');
 var router = express.Router();
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('perfume', { title: 'Search Results perfume' });
-});
-
+/* GET perfume */
+router.get('/perfume/:id', perfume_controlers.perfume_view_all_Page );
 module.exports = router;
