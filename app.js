@@ -4,11 +4,28 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+require('dotenv').config();
+const connectionString =
+process.env.MONGO_CON
+mongoose = require('mongoose');
+mongoose.connect(connectionString,
+{useNewUrlParser: true,
+useUnifiedTopology: true});
+
+//Get the default connection
+var db = mongoose.connection;
+//Bind connection to error event
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once("open", function(){
+console.log("Connection to DB succeeded")});
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var boardRouter = require('./routes/board');
 var perfumeRouter = require('./routes/perfume');
 var selectorRouter = require('./routes/selector');
+var resourceRouter = require('./routes/resource');
+var perfume = require("./models/perfume");
 
 var app = express();
 
@@ -27,7 +44,34 @@ app.use('/users', usersRouter);
 app.use('/board', boardRouter);
 app.use('/perfume', perfumeRouter);
 app.use('/selector', selectorRouter);
+app.use('/resource', resourceRouter);
 
+// We can seed the collection if needed on server start
+async function recreateDB(){
+ // Delete everything
+ await perfume.deleteMany();
+ let instance1 = new perfume({brand:"Fogg",fragrance:"jasmine",cost:180});
+ instance1.save().then(doc=>{
+ console.log("First object saved")}
+ ).catch(err=>{
+ console.error(err)
+ });
+
+ let instance2 = new perfume({brand:"Axe",fragrance:"Chocolate",cost:135});
+ instance2.save().then(doc=>{
+ console.log("Second object saved")}
+ ).catch(err=>{
+ console.error(err)
+ });
+ let instance3 = new perfume({brand:"Versace",fragrance:"Rose",cost:200});
+ instance3.save().then(doc=>{
+ console.log("Third object saved")}
+ ).catch(err=>{
+ console.error(err)
+ });
+}
+let reseed = true;
+if (reseed) {recreateDB();}
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
