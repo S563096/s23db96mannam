@@ -104,3 +104,57 @@ exports.perfume_view_all_Page = async function(req, res) {
     res.send(`{"error": ${err}}`);
     }
    };
+   //Handle a show one view with id specified by query
+exports.perfume_view_one_Page = async function(req, res) {
+console.log("single view for id " + req.query.id)
+try{
+result = await perfume.findById( req.query.id)
+res.render('perfumedetail',
+{ title: 'perfume Detail', toShow: result });
+}
+catch(err){
+res.status(500)
+res.send(`{'error': '${err}'}`);
+}
+};
+//Handle building the view for creating a perfume.
+// No body, no in path parameter, no query.
+// Does not need to be async
+exports.perfume_create_Page = function(req, res) {
+console.log("create view")
+try{
+res.render('perfumecreate', { title: 'perfume Create'});
+}
+catch(err){
+res.status(500)
+res.send(`{'error': '${err}'}`);
+}
+};
+
+//of Page for update of one instance on a browser.
+// Handle building the view for updating a perfume.
+// query provides the id
+exports.perfume_update_Page = async function(req, res) {
+console.log("update view for item "+req.query.id)
+try{
+let result = await perfume.findById(req.query.id)
+res.render('perfumeupdate', { title: 'perfume Update', toShow: result });
+}
+catch(err){
+res.status(500)
+res.send(`{'error': '${err}'}`);
+}
+};
+//Handle a delete one view with id from query
+exports.perfume_delete_Page = async function(req, res) {
+console.log("Delete view for id " + req.query.id)
+try{
+result = await perfume.findById(req.query.id)
+res.render('perfumedelete', { title: 'perfume Delete', toShow:
+result });
+}
+catch(err){
+res.status(500)
+res.send(`{'error': '${err}'}`);
+}
+};

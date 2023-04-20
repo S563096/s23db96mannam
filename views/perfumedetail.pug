@@ -1,0 +1,23 @@
+extends layout
+block content
+ h1= title
+ if (toShow == null)
+  h2 No instance to detail
+ else
+  - let perfumeid = toShow._id
+  - let brand = toShow.brand
+  - let fragrance = toShow.fragrance
+  - let cost = toShow.cost
+  div
+    div.row
+     div(class='perfumeAttr mr-3') perfume ID is:
+     div #{perfumeid}
+    div.row
+     div(class='perfumeAttr mr-3') perfume brand is:
+     div #{brand}
+    div.row
+     div(class='perfumeAttr mr-3') perfume fragrance is:
+     div #{fragrance}
+    div.row
+     div(class='perfumeAttr mr-3') perfume Cost is:
+     div #{cost}
