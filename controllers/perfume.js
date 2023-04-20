@@ -54,9 +54,19 @@ res.send(`{"error": document for id ${req.params.id} not found`);
  res.send('NOT IMPLEMENTED: perfume create POST');
 };*/
 // Handle perfume delete form on DELETE.
-exports.perfume_delete = function(req, res) {
- res.send('NOT IMPLEMENTED: perfume delete DELETE ' + req.params.id);
+//Handle perfume delete on DELETE.
+exports.perfume_delete = async function(req, res) {
+console.log("delete " + req.params.id)
+try {
+result = await perfume.findByIdAndDelete( req.params.id)
+console.log("Removed " + result)
+res.send(result)
+} catch (err) {
+res.status(500)
+res.send(`{"error": Error deleting ${err}}`);
+}
 };
+
 // Handle perfume update form on PUT.
 /*exports.perfume_update_put = function(req, res) {
  res.send('NOT IMPLEMENTED: perfume update PUT' + req.params.id);
