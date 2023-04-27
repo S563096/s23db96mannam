@@ -10,7 +10,7 @@ block content
     input#fragrance(type='String', name='fragrance')
   div.form-group
     label.perfumeAttr(for='cost') perfume cost
-    input#cost(type='number', name='cost')
+    input#cost(type='number', name='cost',min=5,max=1200)
   input(type="submit")
  script.
   document.forms['perfumeForm'].addEventListener('submit', (event) => {
